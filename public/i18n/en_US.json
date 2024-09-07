@@ -1,20 +1,11 @@
 {
-    "addTopBarIcon": "Add a top bar icon by plugin",
+    "acb_html":"<span>Auto Code Block</span>",
+    "acb_window_title":"input your code here to auto detect the lamguage",
+    "acb_window_input_placehoder":"Paste your code here",
+    "acb_show_message_prefix":"Detected language： ",
+
     "cancel": "Cancel",
     "save": "Save",
-    "byeMenu": "Bye, Menu!",
-    "helloPlugin": "Hello, Plugin!",
-    "byePlugin": "Bye, Plugin!",
-    "showDialog": "Show dialog",
-    "removedData": "Data deleted",
-    "confirmRemove": "Confirm to delete the data in ${name}?",
-    "insertEmoji": "Insert Emoji",
-    "removeSpace": "Remove Space",
-    "getTab": "Print out all opened custom tabs in the debugger",
-    "name": "SiYuan",
-    "hello": {
-        "makesure": "Before using this template, please read the <a href=\"https://github.com/siyuan-note/plugin-sample\">offical sample</a>, make sure that you've known about the pipeline for plugin developing."
-    },
     "hintTitle":"About",
-    "hintDesc":"<a href='https://github.com/siyuan-note/plugin-sample-vite-svelte'>plugin-sample-vite-svelte</a><br>@frostime<br>@88250<br>@zxkmm"
+    "hintDesc":"<a href='https://github.com/siyuan-note/siyuan_auto_codeblock'>siyuan_auto_codeblock</a><br>@frostime<br>@88250<br>@zxkmm"
 }

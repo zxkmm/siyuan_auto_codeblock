@@ -1,8 +1,8 @@
 {
-  "name": "plugin-sample-vite-svelte",
-  "author": "frostime",
-  "url": "https://github.com/siyuan-note/plugin-sample-vite-svelte",
-  "version": "0.3.5",
+  "name": "siyuan_auto_codeblock",
+  "author": "zxkmm",
+  "url": "https://github.com/zxkmm/siyuan_auto_codeblock",
+  "version": "0.0.1",
   "minAppVersion": "3.0.12",
   "backends": [
     "windows",
@@ -20,12 +20,12 @@
     "desktop-window"
   ],
   "displayName": {
-    "en_US": "Plugin sample with vite and svelte",
-    "zh_CN": "插件样例 vite + svelte 版"
+    "en_US": "Codeblock Auto Language",
+    "zh_CN": "代码块自动检测语言"
   },
   "description": {
-    "en_US": "SiYuan plugin sample with vite and svelte",
-    "zh_CN": "使用 vite 和 svelte 开发的思源插件样例"
+    "en_US": "Auto detect the programming language of the code block",
+    "zh_CN": "自动检测代码块的编程语言"
   },
   "readme": {
     "en_US": "README.md",
@@ -37,6 +37,6 @@
     ]
   },
   "keywords": [
-    "plugin", "sample", "插件样例"
+    "codeblock", "language", "代码块", "语言", "自动检测"
   ]
 }
