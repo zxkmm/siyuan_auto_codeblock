@@ -1,11 +1,17 @@
 {
-    "acb_html":"<span>Auto Code Block</span>",
-    "acb_window_title":"input your code here to auto detect the lamguage",
-    "acb_window_input_placehoder":"Paste your code here",
-    "acb_show_message_prefix":"Detected language： ",
+  "autoMode": "Auto Mode",
+  "autoModeDesc": "When enabled, pasting code doesn't require clicking the confirm button; it will automatically callback.<br>Note: In auto mode, you can only paste code; you cannot edit after pasting.",
 
-    "cancel": "Cancel",
-    "save": "Save",
-    "hintTitle":"About",
-    "hintDesc":"<a href='https://github.com/siyuan-note/siyuan_auto_codeblock'>siyuan_auto_codeblock</a><br>@frostime<br>@88250<br>@zxkmm"
+  "acb_html": "<span>Auto Code Block</span>",
+  "acb_window_title": "Input code to automatically detect language",
+  "acb_window_title_automode": "Paste code to automatically callback and detect language",
+  "acb_window_input_placehoder": "Paste/edit or input code here. If you want to automatically callback after pasting, please enable auto mode in plugin settings.",
+  "acb_window_input_placehoder_automode": "Paste code here. If you want to input/edit code, please disable auto mode in plugin settings.",
+  "acb_show_message_prefix": "Detected language: ",
+  "acb_show_message_language_unknown": "No valid language information detected",
+
+  "cancel": "Cancel",
+  "save": "Save",
+  "hintTitle": "About",
+  "hintDesc": "<ul><li>● Made by <a href='https://github.com/zxkmm'>zxkmm</a>, open-sourced under MIT license.</li><li>● If you like this plugin, please give my GitHub repository a free star ⭐.</li><li>● Link: <a href='https://github.com/zxkmm/siyuan_auto_codeblock'>https://github.com/zxkmm/siyuan_auto_codeblock</a></li><li>"
 }

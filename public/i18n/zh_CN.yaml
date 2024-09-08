@@ -1,13 +1,16 @@
 ---
+autoMode: 自动模式
+autoModeDesc: 启用后，粘贴代码不需要点击确认按钮，会自动callback。<br>请注意：自动模式下你只能粘贴代码，不能粘贴后进行编辑等操作。
 
 acb_html: <span>自动代码块</span>
 acb_window_title: 输入代码自动检测语言
-acb_window_input_placehoder: 这里粘贴代码
-acb_show_message_prefix: 检测到语言： 
+acb_window_title_automode: 粘贴代码自动callback并检测语言
+acb_window_input_placehoder: 这里粘贴/编辑或输入代码。如果你希望粘贴后自动callback,请在插件设置中打开自动模式。
+acb_window_input_placehoder_automode: 这里粘贴代码。如果你想输入/编辑代码，请在插件设置中关闭自动模式。
+acb_show_message_prefix: 检测到语言：
+acb_show_message_language_unknown: 未检测到有效语言信息
 
 cancel: 取消
 save: 保存
 hintTitle: 关于
-hintDesc: "<a href='https://github.com/siyuan-note/siyuan_auto_codeblock'>\U0001F517
-  siyuan_auto_codeblock</a><br>\U0001F4BB @frostime<br>\U0001F4BB @88250<br>\U0001F4BB
-  @zxkmm"
+hintDesc: "<ul><li>● 由<a href='https://github.com/zxkmm'>zxkmm</a>制作， MIT 协议开源。</li><li>● 如果您喜欢这个插件，请给我的 GitHub 仓库点亮免费的星星⭐（Star）。</li><li>● 链接：<a href='https://github.com/zxkmm/siyuan_auto_codeblock'>https://github.com/zxkmm/siyuan_auto_codeblock</a></li><li>"

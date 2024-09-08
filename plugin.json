@@ -2,16 +2,9 @@
   "name": "siyuan_auto_codeblock",
   "author": "zxkmm",
   "url": "https://github.com/zxkmm/siyuan_auto_codeblock",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "minAppVersion": "3.0.12",
-  "backends": [
-    "windows",
-    "linux",
-    "darwin",
-    "docker",
-    "ios",
-    "android"
-  ],
+  "backends": ["windows", "linux", "darwin", "docker", "ios", "android"],
   "frontends": [
     "desktop",
     "mobile",
@@ -32,11 +25,7 @@
     "zh_CN": "README_zh_CN.md"
   },
   "funding": {
-    "custom": [
-      ""
-    ]
+    "custom": [""]
   },
-  "keywords": [
-    "codeblock", "language", "代码块", "语言", "自动检测"
-  ]
+  "keywords": ["codeblock", "language", "代码块", "语言", "自动检测"]
 }
