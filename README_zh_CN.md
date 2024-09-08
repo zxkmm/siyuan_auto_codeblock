@@ -23,5 +23,5 @@
 - 该插件创建代码块后一段时间，高亮不显示（之后都会正常显示）
 
 # 感谢 ♥️
-- @Frostime: 提供斜杠菜单的代码 ♥️
-- @leolee: 在我被攻击时维护我 ♥️
+- [@frostime](https://github.com/frostime):: 提供斜杠菜单的代码 ♥️
+- [@leolee](https://github.com/leolee9086): 对于代码块高亮问题的解决方案 ♥️

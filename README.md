@@ -16,4 +16,4 @@
 
 # Thanks ♥️
 - [@frostime](https://github.com/frostime): Provided the code for the slash menu.
-- [@leolee](leolee9086): Helped me during attacks.
+- [@leolee](https://github.com/leolee9086): Gave me methods regarding the code block highlights issue.
