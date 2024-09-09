@@ -52,7 +52,7 @@ export default class SiyuanAutoCodeblock extends Plugin {
         return _input_text_;
       }
     }
-    ///v situation about: if it has md format already and also if it has md format with languagee already.
+    ///^ situation about: if it has md format already and also if it has md format with languagee already.
     ///^ edge case handler
 
     const originalLanguage = this.handleLanguage(_input_text_); //better looking so this is necessary
