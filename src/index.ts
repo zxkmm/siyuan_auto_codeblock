@@ -24,6 +24,32 @@ export default class SiyuanAutoCodeblock extends Plugin {
   private isMobile: boolean;
   private settingUtils: SettingUtils;
 
+  detectLanguageAndTransferToMarkdownCodeFormat = (_input_text_: string) => {
+    const originalLanguage = this.handleLanguage(_input_text_); //better looking so this is necessary
+    const language = this.codeLanguageNameToSiyuanStyle(originalLanguage);
+
+    if (originalLanguage === "Unknown") {
+      // showMessage(this.i18n.acb_show_message_language_unknown);
+      return _input_text_;
+    } else {
+      showMessage(this.i18n.full_auto_paste_message.replace("^&*^&*@@@^&*^&*^&*", originalLanguage));
+      return `\`\`\`${language}
+${_input_text_}
+\`\`\``;
+    }
+  };
+
+  handlePasteEvent = (event: any) => {
+    console.log("paste handler");
+    event.preventDefault();
+    const originalText = event.detail.textPlain.trim();
+    const processedText =
+      this.detectLanguageAndTransferToMarkdownCodeFormat(originalText);
+    event.detail.resolve({
+      textPlain: processedText,
+    });
+  };
+
   handleLanguage(_code_content_: string) {
     return flourite(_code_content_).language;
   }
@@ -55,9 +81,11 @@ export default class SiyuanAutoCodeblock extends Plugin {
             title: autoMode
               ? this.i18n.acb_window_title_automode
               : this.i18n.acb_window_title,
-            placeholder: this.isMobile ? ("") :(autoMode
-              ? this.i18n.acb_window_input_placehoder_automode
-              : this.i18n.acb_window_input_placehoder),
+            placeholder: this.isMobile
+              ? ""
+              : autoMode
+                ? this.i18n.acb_window_input_placehoder_automode
+                : this.i18n.acb_window_input_placehoder,
             width: this.isMobile ? "95vw" : "70vw",
             height: this.isMobile ? "95vw" : "30vw",
             confirm: (text: string) => {
@@ -132,7 +160,7 @@ ${text}
       height: args.height,
     });
     const target: HTMLTextAreaElement = dialog.element.querySelector(
-      ".b3-dialog__content>div.ft__breakword>textarea"
+      ".b3-dialog__content>div.ft__breakword>textarea",
     );
     const btnsElement = dialog.element.querySelectorAll(".b3-button");
     btnsElement[0].addEventListener("click", () => {
@@ -181,10 +209,18 @@ ${text}
 
     this.settingUtils.addItem({
       key: "autoMode",
-      value: false,
+      value: true,
       type: "checkbox",
       title: this.i18n.autoMode,
       description: this.i18n.autoModeDesc,
+    });
+
+    this.settingUtils.addItem({
+      key: "pasteAutoMode",
+      value: true,
+      type: "checkbox",
+      title: this.i18n.pasteAutoMode,
+      description: this.i18n.pasteAutoModeDesc,
     });
 
     this.settingUtils.addItem({
@@ -200,13 +236,16 @@ ${text}
     } catch (error) {
       console.error(
         "Error loading settings storage, probably empty config json:",
-        error
+        error,
       );
     }
   }
 
   onLayoutReady() {
     this.handleSlashEvent();
+    if(this.settingUtils.get("pasteAutoMode")){
+    this.eventBus.on("paste", this.handlePasteEvent);
+    }
     // this.loadData(STORAGE_NAME);
     this.settingUtils.load();
     // console.log(`frontend: ${getFrontend()}; backend: ${getBackend()}`);

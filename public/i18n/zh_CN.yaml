@@ -10,6 +10,11 @@ acb_window_input_placehoder_automode: 这里粘贴代码。如果你想输入/�
 acb_show_message_prefix: 检测到语言：
 acb_show_message_language_unknown: 未检测到有效语言信息
 
+pasteAutoMode: 粘贴自动识别
+pasteAutoModeDesc: 粘贴代码后自动识别语言并设置代码块高亮。如果未检测到语言，粘贴为纯文本。
+full_auto_paste_message: 检测到该语言： ^&*^&*@@@^&*^&*^&* , 自动粘贴为代码块并设置对应高亮。
+
+
 cancel: 取消
 save: 保存
 hintTitle: 关于

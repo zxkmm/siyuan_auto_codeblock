@@ -10,6 +10,10 @@
   "acb_show_message_prefix": "Detected language: ",
   "acb_show_message_language_unknown": "No valid language information detected",
 
+  "pasteAutoMode":"Paste Auto Detect",
+  "pasteAutoModeDesc":"When enable, it automatically detect the language and paste with language specific highlight code block. If not detected, it will paste as plain text.",
+  "full_auto_paste_message": "Detected this language ^&*^&*@@@^&*^&*^&* , automatically pasted as code block with highlight",
+
   "cancel": "Cancel",
   "save": "Save",
   "hintTitle": "About",
