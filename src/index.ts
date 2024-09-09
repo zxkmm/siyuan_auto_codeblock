@@ -24,18 +24,31 @@ export default class SiyuanAutoCodeblock extends Plugin {
   private isMobile: boolean;
   private settingUtils: SettingUtils;
 
-  detectLanguageAndTransferToMarkdownCodeFormat = (_input_text_: string) => {
+  detectLanguageAndTransferToMarkdownCodeFormat = (_input_text_: string) => { //TODO: paste handler unit test
     console.log(_input_text_);
     ///v edge case handler
     //TODO: check other clipboard content e.g. files and link etc, make suer bypass all of them.
+    ///v html code handler
+    // TODO: html things (e.g. vscode)
+    ///^ html code handler
     ///v situation about: if it has md format already and also if it has md format with languagee already. TODO check what for vscode.
     if (_input_text_.startsWith("```") && _input_text_.endsWith("```")) {
+      console.log("ent1");
       const firstLineEnd = _input_text_.indexOf("\n");
       const firstLine = _input_text_.substring(0, firstLineEnd).trim();
 
-      if (firstLine === "```") {
-        return _input_text_.substring(4, _input_text_.length - 3).trim();
-      } else if (firstLine.startsWith("```")) {
+      if (firstLine === "```") { //has md format already BUT no language
+        //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! NEVER FORGET!
+        //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        console.log("ent2");
+        _input_text_ =  _input_text_.substring(4, _input_text_.length - 3).trim(); 
+      } else if (firstLine.startsWith("```")) { //has md format with languagee already
+        console.log("ent3");
         return _input_text_;
       }
     }
