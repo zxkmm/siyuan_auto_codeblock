@@ -43,7 +43,7 @@ export default class SiyuanAutoCodeblock extends Plugin {
   }
 
   handleSlashEvent() {
-    showMessage(this.isMobile ? "Mobile" : "Desktop");
+    // showMessage(this.isMobile ? "Mobile" : "Desktop");
     var autoMode = this.settingUtils.get("autoMode");
     this.protyleSlash = [
       {
