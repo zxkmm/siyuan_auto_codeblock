@@ -43,6 +43,7 @@ export default class SiyuanAutoCodeblock extends Plugin {
   }
 
   handleSlashEvent() {
+    showMessage(this.isMobile ? "Mobile" : "Desktop");
     var autoMode = this.settingUtils.get("autoMode");
     this.protyleSlash = [
       {
@@ -54,11 +55,11 @@ export default class SiyuanAutoCodeblock extends Plugin {
             title: autoMode
               ? this.i18n.acb_window_title_automode
               : this.i18n.acb_window_title,
-            placeholder: autoMode
+            placeholder: this.isMobile ? ("") :(autoMode
               ? this.i18n.acb_window_input_placehoder_automode
-              : this.i18n.acb_window_input_placehoder,
-            width: "50vw",
-            height: "50vh",
+              : this.i18n.acb_window_input_placehoder),
+            width: this.isMobile ? "95vw" : "50vw",
+            height: this.isMobile ? "95vw" : "50vw",
             confirm: (text: string) => {
               const language = this.handleLanguage(text);
               if (language === "Unknown") {
@@ -130,7 +131,7 @@ ${text}
       height: args.height,
     });
     const target: HTMLTextAreaElement = dialog.element.querySelector(
-      ".b3-dialog__content>div.ft__breakword>textarea",
+      ".b3-dialog__content>div.ft__breakword>textarea"
     );
     const btnsElement = dialog.element.querySelectorAll(".b3-button");
     btnsElement[0].addEventListener("click", () => {
@@ -173,7 +174,6 @@ ${text}
     this.isMobile = frontEnd === "mobile" || frontEnd === "browser-mobile";
 
     this.settingUtils = new SettingUtils({
-      //TODO: settings
       plugin: this,
       name: STORAGE_NAME,
     });
@@ -199,7 +199,7 @@ ${text}
     } catch (error) {
       console.error(
         "Error loading settings storage, probably empty config json:",
-        error,
+        error
       );
     }
   }

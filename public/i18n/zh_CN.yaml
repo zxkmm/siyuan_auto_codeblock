@@ -5,8 +5,8 @@ autoModeDesc: 启用后，粘贴代码不需要点击确认按钮，会自动cal
 acb_html: <span>自动代码块</span>
 acb_window_title: 输入代码自动检测语言
 acb_window_title_automode: 粘贴代码自动callback并检测语言
-acb_window_input_placehoder: 这里粘贴/编辑或输入代码。如果你希望粘贴后自动callback,请在插件设置中打开自动模式。
-acb_window_input_placehoder_automode: 这里粘贴代码。如果你想输入/编辑代码，请在插件设置中关闭自动模式。
+acb_window_input_placehoder: 这里粘贴/编辑或输入代码。<br>如果你希望粘贴后自动callback,请在插件设置中打开自动模式。
+acb_window_input_placehoder_automode: 这里粘贴代码。<br>如果你想输入/编辑代码，请在插件设置中关闭自动模式。
 acb_show_message_prefix: 检测到语言：
 acb_show_message_language_unknown: 未检测到有效语言信息
 
