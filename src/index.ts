@@ -27,6 +27,7 @@ export default class SiyuanAutoCodeblock extends Plugin {
   detectLanguageAndTransferToMarkdownCodeFormat = (_input_text_: string) => {
     console.log(_input_text_);
     ///v edge case handler
+    //TODO: check other clipboard content e.g. files and link etc, make suer bypass all of them.
     ///v situation about: if it has md format already and also if it has md format with languagee already. TODO check what for vscode.
     if (_input_text_.startsWith("```") && _input_text_.endsWith("```")) {
       const firstLineEnd = _input_text_.indexOf("\n");
