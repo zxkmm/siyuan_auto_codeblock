@@ -58,8 +58,8 @@ export default class SiyuanAutoCodeblock extends Plugin {
             placeholder: this.isMobile ? ("") :(autoMode
               ? this.i18n.acb_window_input_placehoder_automode
               : this.i18n.acb_window_input_placehoder),
-            width: this.isMobile ? "95vw" : "50vw",
-            height: this.isMobile ? "95vw" : "50vw",
+            width: this.isMobile ? "95vw" : "70vw",
+            height: this.isMobile ? "95vw" : "30vw",
             confirm: (text: string) => {
               const language = this.handleLanguage(text);
               if (language === "Unknown") {
@@ -101,11 +101,12 @@ ${text}
     height?: string;
   }) => {
     const autoMode = this.settingUtils.get("autoMode");
+    const inputBoxHeight = this.isMobile ? "65vw" : "22vw";
     const dialog = new Dialog({
       title: args.title,
       content: autoMode
         ? `<div class="b3-dialog__content">
-      <div class="ft__breakword"><textarea class="b3-text-field fn__block" style="height: 300px;" placeholder=${
+      <div class="ft__breakword"><textarea class="b3-text-field fn__block" style="height: ${inputBoxHeight};" placeholder=${
         args?.placeholder ?? ""
       }>${args?.defaultText ?? ""}</textarea></div>
   </div>
@@ -115,7 +116,7 @@ ${text}
       }</button><div class="fn__space"></div>
   </div>`
         : `<div class="b3-dialog__content">
-      <div class="ft__breakword"><textarea class="b3-text-field fn__block" style="height: 300px;" placeholder=${
+      <div class="ft__breakword"><textarea class="b3-text-field fn__block" style="height: ${inputBoxHeight};" placeholder=${
         args?.placeholder ?? ""
       }>${args?.defaultText ?? ""}</textarea></div>
   </div>

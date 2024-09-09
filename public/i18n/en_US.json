@@ -5,8 +5,8 @@
   "acb_html": "<span>Auto Code Block</span>",
   "acb_window_title": "Input code to automatically detect language",
   "acb_window_title_automode": "Paste code to automatically callback and detect language",
-  "acb_window_input_placehoder": "Paste/edit or input code here. <br>If you want to automatically callback after pasting, please enable auto mode in plugin settings.",
-  "acb_window_input_placehoder_automode": "Paste code here. <br>If you want to input/edit code, please disable auto mode in plugin settings.",
+  "acb_window_input_placehoder": "Paste/edit or input code here. If you want to automatically callback after pasting, please enable auto mode in plugin settings.",
+  "acb_window_input_placehoder_automode": "Paste code here. If you want to input/edit code, please disable auto mode in plugin settings.",
   "acb_show_message_prefix": "Detected language: ",
   "acb_show_message_language_unknown": "No valid language information detected",
 
