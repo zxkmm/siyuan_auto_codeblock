@@ -25,6 +25,22 @@ export default class SiyuanAutoCodeblock extends Plugin {
   private settingUtils: SettingUtils;
 
   detectLanguageAndTransferToMarkdownCodeFormat = (_input_text_: string) => {
+    console.log(_input_text_);
+    ///v edge case handler
+    ///v situation about: if it has md format already and also if it has md format with languagee already. TODO check what for vscode.
+    if (_input_text_.startsWith("```") && _input_text_.endsWith("```")) {
+      const firstLineEnd = _input_text_.indexOf("\n");
+      const firstLine = _input_text_.substring(0, firstLineEnd).trim();
+
+      if (firstLine === "```") {
+        return _input_text_.substring(4, _input_text_.length - 3).trim();
+      } else if (firstLine.startsWith("```")) {
+        return _input_text_;
+      }
+    }
+    ///v situation about: if it has md format already and also if it has md format with languagee already.
+    ///^ edge case handler
+
     const originalLanguage = this.handleLanguage(_input_text_); //better looking so this is necessary
     const language = this.codeLanguageNameToSiyuanStyle(originalLanguage);
 
@@ -32,7 +48,12 @@ export default class SiyuanAutoCodeblock extends Plugin {
       // showMessage(this.i18n.acb_show_message_language_unknown);
       return _input_text_;
     } else {
-      showMessage(this.i18n.full_auto_paste_message.replace("^&*^&*@@@^&*^&*^&*", originalLanguage));
+      showMessage(
+        this.i18n.full_auto_paste_message.replace(
+          "^&*^&*@@@^&*^&*^&*",
+          originalLanguage,
+        ),
+      );
       return `\`\`\`${language}
 ${_input_text_}
 \`\`\``;
@@ -243,8 +264,8 @@ ${text}
 
   onLayoutReady() {
     this.handleSlashEvent();
-    if(this.settingUtils.get("pasteAutoMode")){
-    this.eventBus.on("paste", this.handlePasteEvent);
+    if (this.settingUtils.get("pasteAutoMode")) {
+      this.eventBus.on("paste", this.handlePasteEvent);
     }
     // this.loadData(STORAGE_NAME);
     this.settingUtils.load();
