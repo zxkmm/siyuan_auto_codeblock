@@ -24,7 +24,8 @@ export default class SiyuanAutoCodeblock extends Plugin {
   private isMobile: boolean;
   private settingUtils: SettingUtils;
 
-  detectLanguageAndTransferToMarkdownCodeFormat = (_input_text_: string) => { //TODO: paste handler unit test
+  detectLanguageAndTransferToMarkdownCodeFormat = (_input_text_: string) => {
+    //TODO: paste handler unit test
     console.log(_input_text_);
     ///v edge case handler
     //TODO: check other clipboard content e.g. files and link etc, make suer bypass all of them.
@@ -37,7 +38,8 @@ export default class SiyuanAutoCodeblock extends Plugin {
       const firstLineEnd = _input_text_.indexOf("\n");
       const firstLine = _input_text_.substring(0, firstLineEnd).trim();
 
-      if (firstLine === "```") { //has md format already BUT no language
+      if (firstLine === "```") {
+        //has md format already BUT no language
         //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! NEVER FORGET!
         //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -46,14 +48,35 @@ export default class SiyuanAutoCodeblock extends Plugin {
         //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         console.log("ent2");
-        _input_text_ =  _input_text_.substring(4, _input_text_.length - 3).trim(); 
-      } else if (firstLine.startsWith("```")) { //has md format with languagee already
+        _input_text_ = _input_text_
+          .substring(4, _input_text_.length - 3)
+          .trim();
+      } else if (firstLine.startsWith("```")) {
+        //has md format with languagee already
         console.log("ent3");
         return _input_text_;
       }
     }
     ///^ situation about: if it has md format already and also if it has md format with languagee already.
     ///^ edge case handler
+
+    // ///v handle content from siyuan itself //TODO: it seems _input_test_ didn't gave html things'
+    // if (
+    //   _input_text_.startsWith("<p id=") &&
+    //   _input_text_.includes("updated=")
+    // ) {
+    //   console.log("ent222");
+    //   const parser = new DOMParser();
+    //   const doc = parser.parseFromString(_input_text_, "text/html");
+    //   const pElement = doc.querySelector("p");
+    //   if (pElement) {
+    //     _input_text_ = pElement.textContent
+    //       .replace(/&gt;/g, ">")
+    //       .replace(/&lt;/g, "<")
+    //       .replace(/&quot;/g, '"');
+    //   }
+    // }
+    // ///^ handle content from siyuan itself
 
     const originalLanguage = this.handleLanguage(_input_text_); //better looking so this is necessary
     const language = this.codeLanguageNameToSiyuanStyle(originalLanguage);
