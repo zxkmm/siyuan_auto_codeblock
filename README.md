@@ -8,6 +8,10 @@
 1. Copy your from code somewhere
 2. Paste into SiYuan, and it will automatically detect language and set highlight regarding to the specific language.
 
+# FAQ
+Q: The content that is not code after pasting is recognized as code?
+A: You can try Siyuan's paste as plain text shortcut (default is Ctrl+Shift+V), or right click - paste as plain text, or turn off automatic pasting and only use the slash menu.
+
 # TODO
 - Improve the elegance of the slash menu popup.
 - Automatically adjust the language in the context menu of the code block.

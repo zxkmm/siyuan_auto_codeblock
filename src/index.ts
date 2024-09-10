@@ -29,12 +29,12 @@ export default class SiyuanAutoCodeblock extends Plugin {
     console.log(_input_text_);
     ///v edge case handler
     //TODO: check other clipboard content e.g. files and link etc, make suer bypass all of them.
-    ///v html code handler
-    // TODO: html things (e.g. vscode)
-    ///^ html code handler
-    ///v situation about: if it has md format already and also if it has md format with languagee already. TODO check what for vscode.
+    ///
+    ///v edge case 1: if it has md format already and also if it has md format with languagee already. TODO check what for vscode.
     if (_input_text_.startsWith("```") && _input_text_.endsWith("```")) {
-      console.log("ent1");
+      console.log(
+        "edge case 1: paste md code block format content, paste as is",
+      );
       const firstLineEnd = _input_text_.indexOf("\n");
       const firstLine = _input_text_.substring(0, firstLineEnd).trim();
 
@@ -57,8 +57,8 @@ export default class SiyuanAutoCodeblock extends Plugin {
         return _input_text_;
       }
     }
-    ///^ situation about: if it has md format already and also if it has md format with languagee already.
-    ///^ edge case handler
+    ///^ edge case1: if it has md format already and also if it has md format with languagee already.
+    ///
 
     ///v handle content from siyuan itself //TODO: it seems _input_test_ didn't gave html things, only plain text, but somwhow still not working.
     // if (
@@ -77,6 +77,15 @@ export default class SiyuanAutoCodeblock extends Plugin {
     //   }
     // }
     ///^ handle content from siyuan itself
+
+    ///v edge case2: single line, link, to prevent it reginganze as YAML.
+    if (/^https?:\/\/\S+$/.test(_input_text_)) {
+      console.log("edge case 2: single line http/https link, paste as is");
+      return _input_text_;
+    }
+    ///^ edge case2
+
+    ///^ edge case handler
 
     const originalLanguage = this.handleLanguage(_input_text_); //better looking so this is necessary
     const language = this.codeLanguageNameToSiyuanStyle(originalLanguage);
