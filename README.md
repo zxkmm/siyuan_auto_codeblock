@@ -17,5 +17,5 @@
 
 
 # Thanks ♥️
-- [@frostime](https://github.com/frostime): Provided the code for the slash menu.
+- [@frostime](https://github.com/frostime): Provided the code for the slash menu and the methods to bypass SiYuan's pre-process logic for pasting content.
 - [@leolee](https://github.com/leolee9086): Gave me methods regarding the code block highlights issue.

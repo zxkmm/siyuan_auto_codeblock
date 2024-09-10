@@ -27,5 +27,5 @@
 （暂无）
 
 # 感谢 ♥️
-- [@frostime](https://github.com/frostime):: 提供斜杠菜单的代码 ♥️
+- [@frostime](https://github.com/frostime):: 提供斜杠菜单的代码和绕过思源对剪贴内容预处理逻辑的方案 ♥️
 - [@leolee](https://github.com/leolee9086): 对于代码块高亮问题的解决方案 ♥️

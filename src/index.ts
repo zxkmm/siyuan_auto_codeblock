@@ -60,7 +60,7 @@ export default class SiyuanAutoCodeblock extends Plugin {
     ///^ situation about: if it has md format already and also if it has md format with languagee already.
     ///^ edge case handler
 
-    // ///v handle content from siyuan itself //TODO: it seems _input_test_ didn't gave html things'
+    ///v handle content from siyuan itself //TODO: it seems _input_test_ didn't gave html things, only plain text, but somwhow still not working.
     // if (
     //   _input_text_.startsWith("<p id=") &&
     //   _input_text_.includes("updated=")
@@ -76,7 +76,7 @@ export default class SiyuanAutoCodeblock extends Plugin {
     //       .replace(/&quot;/g, '"');
     //   }
     // }
-    // ///^ handle content from siyuan itself
+    ///^ handle content from siyuan itself
 
     const originalLanguage = this.handleLanguage(_input_text_); //better looking so this is necessary
     const language = this.codeLanguageNameToSiyuanStyle(originalLanguage);
@@ -97,14 +97,15 @@ ${_input_text_}
     }
   };
 
-  handlePasteEvent = (event: any) => {
+  handlePasteEvent = (_event_: any) => {
     console.log("paste handler");
-    event.preventDefault();
-    const originalText = event.detail.textPlain.trim();
+    _event_.preventDefault();
+    const originalText = _event_.detail.textPlain.trim();
     const processedText =
       this.detectLanguageAndTransferToMarkdownCodeFormat(originalText);
-    event.detail.resolve({
+    _event_.detail.resolve({
       textPlain: processedText,
+      textHTML: "<!--StartFragment--><!--EndFragment-->", //this is for take care of the situation of SiYuan's pre-process logic for text/html, by @frostime (https://github.com/frostime/sy-f-misc/blob/63b35c92f2e0a7cb451f6f99500f0bc3dbd46c04/src/func/zotero/index.ts#L16), thanks!!!!!
     });
   };
 
