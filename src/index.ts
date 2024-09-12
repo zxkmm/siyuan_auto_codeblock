@@ -14,6 +14,8 @@ import { SettingUtils } from "./libs/setting-utils";
 
 import flourite from "flourite";
 
+// import hljs from "highlight.js";
+
 const STORAGE_NAME = "menu-config";
 
 // console.log(flourite(lang_test_string));
@@ -24,6 +26,146 @@ export default class SiyuanAutoCodeblock extends Plugin {
   private isMobile: boolean;
   private settingUtils: SettingUtils;
 
+  convertStringToArray(userInput) {
+    if (userInput) {
+      var inputArray = userInput.split(/[,，]/);
+      for (let i = 0; i < inputArray.length; i++) {
+        inputArray[i] = inputArray[i].trim();
+      }
+      return inputArray;
+    } else {
+      // 处理 undefined
+      return [];
+    }
+  }
+
+  // test() {
+  //   const example_code = `void config_mode_blink_until_dfu();
+
+  //   void config_mode_set() {
+  //       uint32_t cms = portapack::persistent_memory::config_mode_storage_direct();
+  //       if ((cms >= CONFIG_MODE_GUARD_VALUE) && (cms < CONFIG_MODE_LIMIT_VALUE))
+  //           cms += 1;
+  //       else
+  //           cms = CONFIG_MODE_GUARD_VALUE;
+  //       portapack::persistent_memory::set_config_mode_storage_direct(cms);
+  //   }
+    
+  //   bool config_mode_should_enter() {
+  //       if (portapack::persistent_memory::config_disable_config_mode_direct())
+  //           return false;
+  //       else
+  //           return portapack::persistent_memory::config_mode_storage_direct() == CONFIG_MODE_LIMIT_VALUE;
+  //   }
+    
+  //   void config_mode_clear() {
+  //       portapack::persistent_memory::set_config_mode_storage_direct(CONFIG_MODE_NORMAL_VALUE);
+  //   }
+    
+  //   uint32_t blink_patterns[] = {
+  //       0x00000000,  // 0 Off
+  //       0xFFFFFFFF,  // 1 On
+  //       0xF0F0F0F0,  // 2 blink fast
+  //       0x00FF00FF,  // 3 blink slow
+  //       0xFFF3FFF3   // 4 inverse blink slow
+  //   };
+    
+  //   void config_mode_run() {
+  //       configure_pins_portapack();
+  //       portapack::gpio_dfu.input();
+  //       portapack::persistent_memory::cache::init();
+    
+  //       if (hackrf_r9) {
+  //           // When this runs on the hackrf r9 there likely was a crash during the last boot
+  //           // caused by the external tcxo. So we disable it unless the user is intentially
+  //           // running the config mode by pressing reset twice followed by pressing DFU.
+  //           auto old_disable_external_tcxo = portapack::persistent_memory::config_disable_external_tcxo();
+  //           portapack::persistent_memory::set_config_disable_external_tcxo(true);
+  //           portapack::persistent_memory::cache::persist();
+    
+  //           config_mode_blink_until_dfu();
+    
+  //           portapack::persistent_memory::set_config_disable_external_tcxo(old_disable_external_tcxo);
+  //           portapack::persistent_memory::cache::persist();
+  //       } else {
+  //           config_mode_blink_until_dfu();
+  //       }
+    
+  //       auto last_dfu_btn = portapack::gpio_dfu.read();
+    
+  //       int32_t counter = 0;
+  //       int8_t blink_pattern_value = portapack::persistent_memory::config_cpld() +
+  //                                    (portapack::persistent_memory::config_disable_external_tcxo() ? 5 : 0);
+    
+  //       while (true) {
+  //           auto dfu_btn = portapack::gpio_dfu.read();
+  //           auto dfu_clicked = last_dfu_btn == true && dfu_btn == false;
+  //           last_dfu_btn = dfu_btn;
+    
+  //           if (dfu_clicked) {
+  //               int8_t value = portapack::persistent_memory::config_cpld() +
+  //                              (portapack::persistent_memory::config_disable_external_tcxo() ? 5 : 0);
+    
+  //               blink_pattern_value = value = (value + 1) % 10;
+    
+  //               portapack::persistent_memory::set_config_cpld(value % 5);
+  //               portapack::persistent_memory::set_config_disable_external_tcxo((value / 5) == 1);
+    
+  //               portapack::persistent_memory::cache::persist();
+  //           }
+    
+  //           auto tx_blink_pattern = blink_patterns[blink_pattern_value % 5];
+  //           auto rx_blink_pattern = blink_patterns[blink_pattern_value / 5];
+    
+  //           auto tx_value = ((tx_blink_pattern >> ((counter >> 0) & 31)) & 0x1) == 0x1;
+  //           if (tx_value) {
+  //               hackrf::one::led_tx.on();
+  //           } else {
+  //               hackrf::one::led_tx.off();
+  //           }
+    
+  //           auto rx_value = ((rx_blink_pattern >> ((counter >> 0) & 31)) & 0x1) == 0x1;
+  //           if (rx_value) {
+  //               hackrf::one::led_rx.on();
+  //           } else {
+  //               hackrf::one::led_rx.off();
+  //           }
+    
+  //           chThdSleepMilliseconds(100);
+  //           counter++;
+  //       }
+  //   }
+    
+  //   void config_mode_blink_until_dfu() {
+  //       while (true) {
+  //           hackrf::one::led_tx.on();
+  //           hackrf::one::led_rx.on();
+  //           hackrf::one::led_usb.on();
+  //           chThdSleepMilliseconds(10);
+    
+  //           hackrf::one::led_tx.off();
+  //           hackrf::one::led_rx.off();
+  //           hackrf::one::led_usb.off();
+  //           chThdSleepMilliseconds(115);
+    
+  //           auto dfu_btn = portapack::gpio_dfu.read();
+  //           if (dfu_btn)
+  //               break;
+  //       }
+    
+  //       while (true) {
+  //           chThdSleepMilliseconds(10);
+    
+  //           auto dfu_btn = portapack::gpio_dfu.read();
+  //           if (!dfu_btn)
+  //               break;
+  //       }
+    
+  //       chThdSleepMilliseconds(10);
+  //   }`;
+
+  // }
+
   detectLanguageAndTransferToMarkdownCodeFormat = (_input_text_: string) => {
     //TODO: paste handler unit test
     console.log(_input_text_);
@@ -33,7 +175,7 @@ export default class SiyuanAutoCodeblock extends Plugin {
     ///v edge case 1: if it has md format already and also if it has md format with languagee already. TODO check what for vscode.
     if (_input_text_.startsWith("```") && _input_text_.endsWith("```")) {
       console.log(
-        "edge case 1: paste md code block format content, paste as is",
+        "edge case 1: paste md code block format content, paste as is"
       );
       const firstLineEnd = _input_text_.indexOf("\n");
       const firstLine = _input_text_.substring(0, firstLineEnd).trim();
@@ -41,12 +183,6 @@ export default class SiyuanAutoCodeblock extends Plugin {
       if (firstLine === "```") {
         //has md format already BUT no language
         //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! NEVER FORGET!
-        //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         console.log("ent2");
         _input_text_ = _input_text_
           .substring(4, _input_text_.length - 3)
@@ -85,6 +221,19 @@ export default class SiyuanAutoCodeblock extends Plugin {
     }
     ///^ edge case2
 
+    ///v edge case4: something like this: ![Screenshot_20240902_123819](assets/Screenshot_20240902_123819-20240912184853-j4wf3ve.png) should paste as is.
+    if (
+      _input_text_.startsWith("![") &&
+      _input_text_.includes("](assets/") &&
+      _input_text_.endsWith(")") &&
+      !_input_text_.includes("\n")
+    ) {
+      console.log("edge case4: image link");
+      return _input_text_;
+    }
+
+    ///^ edge case4
+
     ///^ edge case handler
 
     const originalLanguage = this.handleLanguage(_input_text_); //better looking so this is necessary
@@ -97,8 +246,8 @@ export default class SiyuanAutoCodeblock extends Plugin {
       showMessage(
         this.i18n.full_auto_paste_message.replace(
           "^&*^&*@@@^&*^&*^&*",
-          originalLanguage,
-        ),
+          originalLanguage
+        )
       );
       return `\`\`\`${language}
 ${_input_text_}
@@ -119,7 +268,17 @@ ${_input_text_}
   };
 
   handleLanguage(_code_content_: string) {
-    return flourite(_code_content_).language;
+    const languageBlacklistArr = this.convertStringToArray(this.settingUtils.get("languageBlacklist"));
+    const languageSkiplistArr = this.convertStringToArray(this.settingUtils.get("languageSkiplist")); //TODO
+    const language = flourite(_code_content_).language;
+    const _siyuanStyleLanguage_ = this.codeLanguageNameToSiyuanStyle(language);
+
+    if (languageBlacklistArr.includes(_siyuanStyleLanguage_)) {
+      return "Unknown";
+    } else {
+      return language;
+    }
+    
   }
 
   codeLanguageNameToSiyuanStyle(_language_label_: string) {
@@ -152,8 +311,8 @@ ${_input_text_}
             placeholder: this.isMobile
               ? ""
               : autoMode
-                ? this.i18n.acb_window_input_placehoder_automode
-                : this.i18n.acb_window_input_placehoder,
+              ? this.i18n.acb_window_input_placehoder_automode
+              : this.i18n.acb_window_input_placehoder,
             width: this.isMobile ? "95vw" : "70vw",
             height: this.isMobile ? "95vw" : "30vw",
             confirm: (text: string) => {
@@ -203,8 +362,8 @@ ${text}
       content: autoMode
         ? `<div class="b3-dialog__content">
       <div class="ft__breakword"><textarea class="b3-text-field fn__block" style="height: ${inputBoxHeight};" placeholder=${
-        args?.placeholder ?? ""
-      }>${args?.defaultText ?? ""}</textarea></div>
+            args?.placeholder ?? ""
+          }>${args?.defaultText ?? ""}</textarea></div>
   </div>
   <div class="b3-dialog__action">
       <button class="b3-button b3-button--cancel">${
@@ -213,8 +372,8 @@ ${text}
   </div>`
         : `<div class="b3-dialog__content">
       <div class="ft__breakword"><textarea class="b3-text-field fn__block" style="height: ${inputBoxHeight};" placeholder=${
-        args?.placeholder ?? ""
-      }>${args?.defaultText ?? ""}</textarea></div>
+            args?.placeholder ?? ""
+          }>${args?.defaultText ?? ""}</textarea></div>
   </div>
   <div class="b3-dialog__action">
       <button class="b3-button b3-button--cancel">${
@@ -228,7 +387,7 @@ ${text}
       height: args.height,
     });
     const target: HTMLTextAreaElement = dialog.element.querySelector(
-      ".b3-dialog__content>div.ft__breakword>textarea",
+      ".b3-dialog__content>div.ft__breakword>textarea"
     );
     const btnsElement = dialog.element.querySelectorAll(".b3-button");
     btnsElement[0].addEventListener("click", () => {
@@ -292,6 +451,22 @@ ${text}
     });
 
     this.settingUtils.addItem({
+      key: "languageBlacklist",
+      value: "markdown",
+      type: "textarea",
+      title: this.i18n.languageBlacklist,
+      description: this.i18n.languageBlacklistDesc,
+    });
+
+    this.settingUtils.addItem({
+      key: "languageSkiplist",
+      value: "php",
+      type: "textarea",
+      title: this.i18n.languageSkiplist,
+      description: this.i18n.languageSkiplistDesc,
+    });
+
+    this.settingUtils.addItem({
       key: "Hint",
       value: "",
       type: "hint",
@@ -304,12 +479,13 @@ ${text}
     } catch (error) {
       console.error(
         "Error loading settings storage, probably empty config json:",
-        error,
+        error
       );
     }
   }
 
   onLayoutReady() {
+    // this.test();
     this.handleSlashEvent();
     if (this.settingUtils.get("pasteAutoMode")) {
       this.eventBus.on("paste", this.handlePasteEvent);

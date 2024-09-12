@@ -10,6 +10,11 @@
   "acb_show_message_prefix": "Detected language: ",
   "acb_show_message_language_unknown": "No valid language information detected",
 
+  "languageBlacklist": "Language Blacklist",
+  "languageBlacklistDesc": "If the detected language is in the blacklist, it will be pasted as is without automatic code block highlighting. Use Chinese or English full-width commas to separate, do not write spaces, C++ should be filled as cpp, C♯ (C Sharp) should be filled as c#, for example: cpp,c,rust,c#,typescript,java,javascript,php.",
+  "languageSkiplist": "Language Skip (Fallback) List",
+  "languageSkiplistDesc": "If the detected language is in the fallback list, it will fallback to the next most likely language. If the next most likely language is also in the list, it will continue to fallback. If it falls back to the end, it will be pasted as is. Use Chinese or English full-width commas to separate, do not write spaces. The order of entry does not affect the fallback order. C++ should be filled as cpp, C♯ (C Sharp) should be filled as c#, for example: cpp,c,rust,c#,typescript,java,javascript,php.",
+
   "pasteAutoMode":"Paste Auto Detect",
   "pasteAutoModeDesc":"When enable, it automatically detect the language and paste with language specific highlight code block. If not detected, it will paste as plain text.",
   "full_auto_paste_message": "Detected this language ^&*^&*@@@^&*^&*^&* , automatically pasted as code block with highlight",

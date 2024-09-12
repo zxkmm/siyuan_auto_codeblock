@@ -2,7 +2,7 @@
   "name": "siyuan_auto_codeblock",
   "author": "zxkmm",
   "url": "https://github.com/zxkmm/siyuan_auto_codeblock",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "minAppVersion": "3.0.12",
   "backends": ["windows", "linux", "darwin", "docker", "ios", "android"],
   "frontends": [
