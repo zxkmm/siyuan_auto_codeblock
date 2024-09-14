@@ -337,7 +337,7 @@ ${text}
               let md1 = md;
               // idk why but this (use let instead of const, and pass the var to another var) is the only way to make var reference works...
               protyle.insert(md1, true, true);
-              protyle.reload(true);
+              // protyle.reload(true);
               setTimeout(() => protyle.reload(false), 500);
             },
           });
