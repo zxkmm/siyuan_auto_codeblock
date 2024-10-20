@@ -23,3 +23,4 @@ A: You can try Siyuan's paste as plain text shortcut (default is Ctrl+Shift+V), 
 # Thanks ♥️
 - [@frostime](https://github.com/frostime): Provided the code for the slash menu and the methods to bypass SiYuan's pre-process logic for pasting content.
 - [@leolee](https://github.com/leolee9086): Gave me methods regarding the code block highlights issue.
+- [@choyy](https://github.com/choyy): Helped me fix the bug of pasting code in code block.

@@ -33,3 +33,4 @@ A: 可以尝试思源的粘贴为纯文本快捷键（默认是Ctrl+Shift+V）,�
 # 感谢 ♥️
 - [@frostime](https://github.com/frostime):: 提供斜杠菜单的代码和绕过思源对剪贴内容预处理逻辑的方案 ♥️
 - [@leolee](https://github.com/leolee9086): 对于代码块高亮问题的解决方案 ♥️
+- [@choyy](https://github.com/choyy): 修复粘贴代码块内容的问题 ♥️
