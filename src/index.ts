@@ -169,6 +169,11 @@ export default class SiyuanAutoCodeblock extends Plugin {
   detectLanguageAndTransferToMarkdownCodeFormat = (_input_text_: string) => {
     //TODO: paste handler unit test
     console.log(_input_text_);
+    let block = window.getSelection()
+      && window.getSelection().focusNode
+      && window.getSelection().focusNode.parentElement;
+    while (block != null && block.dataset.nodeId == null) block = block.parentElement; // 当前光标所在块
+    if (block.dataset.type == 'NodeCodeBlock') { return _input_text_; } // #7: 在代码块内粘贴代码，不需要识别语言
     ///v edge case handler
     //TODO: check other clipboard content e.g. files and link etc, make suer bypass all of them.
     ///
