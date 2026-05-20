@@ -2,15 +2,15 @@ import {
   Plugin,
   showMessage,
   Dialog,
-  adaptHotkey,
   getFrontend,
-  getBackend,
   IModel,
   Protyle,
 } from "siyuan";
 import "@/index.scss";
 
 import { SettingUtils } from "./libs/setting-utils";
+
+import { setBlockAttrs } from "./api";
 
 import flourite from "flourite";
 
@@ -166,14 +166,39 @@ export default class SiyuanAutoCodeblock extends Plugin {
 
   // }
 
-  detectLanguageAndTransferToMarkdownCodeFormat = (_input_text_: string) => {
+  detectLanguageAndTransferToMarkdownCodeFormat = async (_input_text_: string) => {
     //TODO: paste handler unit test
     console.log(_input_text_);
-    let block = window.getSelection()
-      && window.getSelection().focusNode
-      && window.getSelection().focusNode.parentElement;
-    while (block != null && block.dataset.nodeId == null) block = block.parentElement; // 当前光标所在块
-    if (block.dataset.type == 'NodeCodeBlock') { return _input_text_; } // #7: 在代码块内粘贴代码，不需要识别语言
+    let block =
+      window.getSelection() &&
+      window.getSelection().focusNode &&
+      window.getSelection().focusNode.parentElement;
+    while (block != null && block.dataset.nodeId == null)
+      block = block.parentElement; // 当前光标所在块
+    if (block && block.dataset.type == "NodeCodeBlock") {
+      const originalLanguage = this.handleLanguage(_input_text_);
+      const language = this.codeLanguageNameToSiyuanStyle(originalLanguage);
+      if (originalLanguage !== "Unknown") {
+        // Method 1: Update via attribute (faster, preserves focus better)
+        await setBlockAttrs(block.dataset.nodeId, {
+          "custom-codelanguage": language,
+        });
+
+        // Method 2: Force UI update of the language label if Method 1 is too slow to reflect
+        const langSpan = block.querySelector(".protyle-action__language");
+        if (langSpan) {
+          langSpan.textContent = language;
+        }
+
+        showMessage(
+          this.i18n.full_auto_paste_message.replace(
+            "^&*^&*@@@^&*^&*^&*",
+            originalLanguage
+          )
+        );
+      }
+      return _input_text_;
+    } // #7: 在代码块内粘贴代码，不需要识别语言
     ///v edge case handler
     //TODO: check other clipboard content e.g. files and link etc, make suer bypass all of them.
     ///
@@ -260,12 +285,12 @@ ${_input_text_}
     }
   };
 
-  handlePasteEvent = (_event_: any) => {
+  handlePasteEvent = async (_event_: any) => {
     console.log("paste handler");
     _event_.preventDefault();
     const originalText = _event_.detail.textPlain.trim();
     const processedText =
-      this.detectLanguageAndTransferToMarkdownCodeFormat(originalText);
+      await this.detectLanguageAndTransferToMarkdownCodeFormat(originalText);
     _event_.detail.resolve({
       textPlain: processedText,
       textHTML: "<!--StartFragment--><!--EndFragment-->", //this is for take care of the situation of SiYuan's pre-process logic for text/html, by @frostime (https://github.com/frostime/sy-f-misc/blob/63b35c92f2e0a7cb451f6f99500f0bc3dbd46c04/src/func/zotero/index.ts#L16), thanks!!!!!
