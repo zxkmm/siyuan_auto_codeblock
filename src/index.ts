@@ -176,26 +176,28 @@ export default class SiyuanAutoCodeblock extends Plugin {
     while (block != null && block.dataset.nodeId == null)
       block = block.parentElement; // 当前光标所在块
     if (block && block.dataset.type == "NodeCodeBlock") {
-      const originalLanguage = this.handleLanguage(_input_text_);
-      const language = this.codeLanguageNameToSiyuanStyle(originalLanguage);
-      if (originalLanguage !== "Unknown") {
-        // Method 1: Update via attribute (faster, preserves focus better)
-        await setBlockAttrs(block.dataset.nodeId, {
-          "custom-codelanguage": language,
-        });
+      if (this.settingUtils.get("pasteInsideCodeBlockDetect")) {
+        const originalLanguage = this.handleLanguage(_input_text_);
+        const language = this.codeLanguageNameToSiyuanStyle(originalLanguage);
+        if (originalLanguage !== "Unknown") {
+          // Method 1: Update via attribute (faster, preserves focus better)
+          await setBlockAttrs(block.dataset.nodeId, {
+            "custom-codelanguage": language,
+          });
 
-        // Method 2: Force UI update of the language label if Method 1 is too slow to reflect
-        const langSpan = block.querySelector(".protyle-action__language");
-        if (langSpan) {
-          langSpan.textContent = language;
+          // Method 2: Force UI update of the language label if Method 1 is too slow to reflect
+          const langSpan = block.querySelector(".protyle-action__language");
+          if (langSpan) {
+            langSpan.textContent = language;
+          }
+
+          showMessage(
+            this.i18n.full_auto_paste_message.replace(
+              "^&*^&*@@@^&*^&*^&*",
+              originalLanguage
+            )
+          );
         }
-
-        showMessage(
-          this.i18n.full_auto_paste_message.replace(
-            "^&*^&*@@@^&*^&*^&*",
-            originalLanguage
-          )
-        );
       }
       return _input_text_;
     } // #7: 在代码块内粘贴代码，不需要识别语言
@@ -478,6 +480,14 @@ ${text}
       type: "checkbox",
       title: this.i18n.pasteAutoMode,
       description: this.i18n.pasteAutoModeDesc,
+    });
+
+    this.settingUtils.addItem({
+      key: "pasteInsideCodeBlockDetect",
+      value: false,
+      type: "checkbox",
+      title: this.i18n.pasteInsideCodeBlockDetect,
+      description: this.i18n.pasteInsideCodeBlockDetectDesc,
     });
 
     this.settingUtils.addItem({

@@ -17,6 +17,8 @@
 
   "pasteAutoMode":"Paste Auto Detect",
   "pasteAutoModeDesc":"When enable, it automatically detect the language and paste with language specific highlight code block. If not detected, it will paste as plain text.",
+  "pasteInsideCodeBlockDetect": "Detect Language Inside Code Block",
+  "pasteInsideCodeBlockDetectDesc": "When enabled, pasting inside an existing code block will also trigger language detection and update the code block's language.",
   "full_auto_paste_message": "Detected this language ^&*^&*@@@^&*^&*^&* , automatically pasted as code block with highlight",
 
   "cancel": "Cancel",
