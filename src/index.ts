@@ -201,6 +201,11 @@ export default class SiyuanAutoCodeblock extends Plugin {
       }
       return _input_text_;
     } // #7: 在代码块内粘贴代码，不需要识别语言
+
+    if (!this.settingUtils.get("pasteAutoMode")) {
+      return _input_text_;
+    }
+
     ///v edge case handler
     //TODO: check other clipboard content e.g. files and link etc, make suer bypass all of them.
     ///
@@ -476,7 +481,7 @@ ${text}
 
     this.settingUtils.addItem({
       key: "pasteAutoMode",
-      value: true,
+      value: false,
       type: "checkbox",
       title: this.i18n.pasteAutoMode,
       description: this.i18n.pasteAutoModeDesc,
@@ -484,7 +489,7 @@ ${text}
 
     this.settingUtils.addItem({
       key: "pasteInsideCodeBlockDetect",
-      value: false,
+      value: true,
       type: "checkbox",
       title: this.i18n.pasteInsideCodeBlockDetect,
       description: this.i18n.pasteInsideCodeBlockDetectDesc,
@@ -527,7 +532,7 @@ ${text}
   onLayoutReady() {
     // this.test();
     this.handleSlashEvent();
-    if (this.settingUtils.get("pasteAutoMode")) {
+    if (this.settingUtils.get("pasteAutoMode") || this.settingUtils.get("pasteInsideCodeBlockDetect")) {
       this.eventBus.on("paste", this.handlePasteEvent);
     }
     // this.loadData(STORAGE_NAME);
