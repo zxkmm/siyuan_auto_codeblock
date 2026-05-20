@@ -8,6 +8,12 @@
 1. Copy your from code somewhere
 2. Paste into SiYuan, and it will automatically detect language and set highlight regarding to the specific language.
 
+# Usage 3
+1. Copy a code snippet.
+2. Paste it directly **inside** an existing code block.
+3. The plugin will detect the language and automatically update the code block's highlighting.
+   - *Note: This behavior can be toggled in the settings via "Detect Language Inside Code Block".*
+
 # FAQ
 Q: The content that is not code after pasting is recognized as code?
 A: You can try Siyuan's paste as plain text shortcut (default is Ctrl+Shift+V), or right click - paste as plain text, or turn off automatic pasting and only use the slash menu.
