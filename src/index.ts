@@ -166,26 +166,60 @@ export default class SiyuanAutoCodeblock extends Plugin {
 
   // }
 
-  detectLanguageAndTransferToMarkdownCodeFormat = async (_input_text_: string) => {
-    //TODO: paste handler unit test
+  isEdgeCase = (_input_text_: string) => {
+    ///v edge case 1: if it has md format already and also if it has md format with languagee already.
+    if (_input_text_.startsWith("```") && _input_text_.endsWith("```")) {
+      const firstLineEnd = _input_text_.indexOf("\n");
+      const firstLine = _input_text_.substring(0, firstLineEnd).trim();
+      if (firstLine.startsWith("```") && firstLine.length > 3) {
+        return true;
+      }
+    }
+
+    ///v edge case2: single line, link, to prevent it reginganze as YAML.
+    if (/^https?:\/\/\S+$/.test(_input_text_)) {
+      return true;
+    }
+
+    ///v edge case4: image link
+    if (
+      _input_text_.startsWith("![") &&
+      _input_text_.includes("](assets/") &&
+      _input_text_.endsWith(")") &&
+      !_input_text_.includes("\n")
+    ) {
+      return true;
+    }
+
+    return false;
+  };
+
+  detectLanguageAndTransferToMarkdownCodeFormat = async (
+    _input_text_: string,
+    block?: HTMLElement
+  ) => {
     console.log(_input_text_);
-    let block =
-      window.getSelection() &&
-      window.getSelection().focusNode &&
-      window.getSelection().focusNode.parentElement;
-    while (block != null && block.dataset.nodeId == null)
-      block = block.parentElement; // 当前光标所在块
+    if (!block) {
+      block =
+        window.getSelection() &&
+        window.getSelection().focusNode &&
+        window.getSelection().focusNode.parentElement;
+      while (block != null && block.dataset.nodeId == null)
+        block = block.parentElement;
+    }
+
     if (block && block.dataset.type == "NodeCodeBlock") {
       if (this.settingUtils.get("pasteInsideCodeBlockDetect")) {
         const originalLanguage = this.handleLanguage(_input_text_);
         const language = this.codeLanguageNameToSiyuanStyle(originalLanguage);
         if (originalLanguage !== "Unknown") {
-          // Method 1: Update via attribute (faster, preserves focus better)
+          // Method 1: Update via attribute
           await setBlockAttrs(block.dataset.nodeId, {
             "custom-codelanguage": language,
           });
+          block.setAttribute("custom-codelanguage", language);
 
-          // Method 2: Force UI update of the language label if Method 1 is too slow to reflect
+          // Method 2: Force UI update of the language label
           const langSpan = block.querySelector(".protyle-action__language");
           if (langSpan) {
             langSpan.textContent = language;
@@ -200,84 +234,31 @@ export default class SiyuanAutoCodeblock extends Plugin {
         }
       }
       return _input_text_;
-    } // #7: 在代码块内粘贴代码，不需要识别语言
+    }
 
     if (!this.settingUtils.get("pasteAutoMode")) {
       return _input_text_;
     }
 
-    ///v edge case handler
-    //TODO: check other clipboard content e.g. files and link etc, make suer bypass all of them.
-    ///
-    ///v edge case 1: if it has md format already and also if it has md format with languagee already. TODO check what for vscode.
-    if (_input_text_.startsWith("```") && _input_text_.endsWith("```")) {
-      console.log(
-        "edge case 1: paste md code block format content, paste as is"
-      );
+    // Handle md format without language
+    if (
+      _input_text_.startsWith("```") &&
+      _input_text_.endsWith("```") &&
+      _input_text_.indexOf("\n") !== -1
+    ) {
       const firstLineEnd = _input_text_.indexOf("\n");
       const firstLine = _input_text_.substring(0, firstLineEnd).trim();
-
       if (firstLine === "```") {
-        //has md format already BUT no language
-        //WARNING!!!!!!! arg changed in this cond!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! NEVER FORGET!
-        console.log("ent2");
         _input_text_ = _input_text_
           .substring(4, _input_text_.length - 3)
           .trim();
-      } else if (firstLine.startsWith("```")) {
-        //has md format with languagee already
-        console.log("ent3");
-        return _input_text_;
       }
     }
-    ///^ edge case1: if it has md format already and also if it has md format with languagee already.
-    ///
 
-    ///v handle content from siyuan itself //TODO: it seems _input_test_ didn't gave html things, only plain text, but somwhow still not working.
-    // if (
-    //   _input_text_.startsWith("<p id=") &&
-    //   _input_text_.includes("updated=")
-    // ) {
-    //   console.log("ent222");
-    //   const parser = new DOMParser();
-    //   const doc = parser.parseFromString(_input_text_, "text/html");
-    //   const pElement = doc.querySelector("p");
-    //   if (pElement) {
-    //     _input_text_ = pElement.textContent
-    //       .replace(/&gt;/g, ">")
-    //       .replace(/&lt;/g, "<")
-    //       .replace(/&quot;/g, '"');
-    //   }
-    // }
-    ///^ handle content from siyuan itself
-
-    ///v edge case2: single line, link, to prevent it reginganze as YAML.
-    if (/^https?:\/\/\S+$/.test(_input_text_)) {
-      console.log("edge case 2: single line http/https link, paste as is");
-      return _input_text_;
-    }
-    ///^ edge case2
-
-    ///v edge case4: something like this: ![Screenshot_20240902_123819](assets/Screenshot_20240902_123819-20240912184853-j4wf3ve.png) should paste as is.
-    if (
-      _input_text_.startsWith("![") &&
-      _input_text_.includes("](assets/") &&
-      _input_text_.endsWith(")") &&
-      !_input_text_.includes("\n")
-    ) {
-      console.log("edge case4: image link");
-      return _input_text_;
-    }
-
-    ///^ edge case4
-
-    ///^ edge case handler
-
-    const originalLanguage = this.handleLanguage(_input_text_); //better looking so this is necessary
+    const originalLanguage = this.handleLanguage(_input_text_);
     const language = this.codeLanguageNameToSiyuanStyle(originalLanguage);
 
     if (originalLanguage === "Unknown") {
-      // showMessage(this.i18n.acb_show_message_language_unknown);
       return _input_text_;
     } else {
       showMessage(
@@ -293,15 +274,53 @@ ${_input_text_}
   };
 
   handlePasteEvent = async (_event_: any) => {
-    console.log("paste handler");
-    _event_.preventDefault();
-    const originalText = _event_.detail.textPlain.trim();
-    const processedText =
-      await this.detectLanguageAndTransferToMarkdownCodeFormat(originalText);
-    _event_.detail.resolve({
-      textPlain: processedText,
-      textHTML: "<!--StartFragment--><!--EndFragment-->", //this is for take care of the situation of SiYuan's pre-process logic for text/html, by @frostime (https://github.com/frostime/sy-f-misc/blob/63b35c92f2e0a7cb451f6f99500f0bc3dbd46c04/src/func/zotero/index.ts#L16), thanks!!!!!
-    });
+    const originalText = _event_.detail.textPlain;
+    if (typeof originalText !== "string") return;
+
+    const trimmedText = originalText.trim();
+    if (!trimmedText) return;
+
+    // Synchronous check to call preventDefault() ASAP
+    let block =
+      window.getSelection() &&
+      window.getSelection().focusNode &&
+      window.getSelection().focusNode.parentElement;
+    while (block != null && block.dataset.nodeId == null)
+      block = block.parentElement;
+
+    const isInsideCodeBlock = block?.dataset.type === "NodeCodeBlock";
+    const pasteAutoMode = this.settingUtils.get("pasteAutoMode");
+    const pasteInsideCodeBlockDetect = this.settingUtils.get(
+      "pasteInsideCodeBlockDetect"
+    );
+
+    let shouldIntercept = false;
+    if (isInsideCodeBlock) {
+      if (pasteInsideCodeBlockDetect) {
+        const lang = this.handleLanguage(trimmedText);
+        if (lang !== "Unknown") {
+          shouldIntercept = true;
+        }
+      }
+    } else if (pasteAutoMode) {
+      const lang = this.handleLanguage(trimmedText);
+      if (lang !== "Unknown" && !this.isEdgeCase(trimmedText)) {
+        shouldIntercept = true;
+      }
+    }
+
+    if (shouldIntercept) {
+      _event_.preventDefault();
+      const processedText =
+        await this.detectLanguageAndTransferToMarkdownCodeFormat(
+          trimmedText,
+          block
+        );
+      _event_.detail.resolve({
+        textPlain: processedText,
+        textHTML: "<!--StartFragment--><!--EndFragment-->",
+      });
+    }
   };
 
   handleLanguage(_code_content_: string) {
