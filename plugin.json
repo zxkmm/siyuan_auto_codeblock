@@ -2,7 +2,7 @@
   "name": "siyuan_auto_codeblock",
   "author": "zxkmm",
   "url": "https://github.com/zxkmm/siyuan_auto_codeblock",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "minAppVersion": "3.0.12",
   "backends": ["windows", "linux", "darwin", "docker", "ios", "android"],
   "frontends": [
@@ -21,11 +21,12 @@
     "zh_CN": "自动检测代码块的编程语言"
   },
   "readme": {
+    "default": "README.md",
     "en_US": "README.md",
     "zh_CN": "README_zh_CN.md"
   },
   "funding": {
-    "custom": [""]
+    "custom": ["https://pipe.b3log.org/blogs/zxkmm/articles/2025/02/08/1738993480704"]
   },
   "keywords": ["codeblock", "language", "代码块", "语言", "自动检测"]
 }
